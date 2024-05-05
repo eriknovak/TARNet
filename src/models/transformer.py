@@ -5,7 +5,8 @@ Created on Sun Apr 11 12:35:52 2021
 @author: Ranak Roy Chowdhury
 """
 
-import torch, copy
+import copy
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -20,8 +21,7 @@ def _get_activation_fn(activation):
 
 
 def _get_clones(module, N):
-    return nn.ModuleList([copy.deepcopy(module) for i in range(N)])    
-    
+    return nn.ModuleList([copy.deepcopy(module) for i in range(N)])
 
 
 class TransformerEncoderLayer(nn.Module):
@@ -77,7 +77,7 @@ class TransformerEncoderLayer(nn.Module):
             see the docs in Transformer class.
         """
         src2, attn = self.self_attn(src, src, src, attn_mask = src_mask,
-                              key_padding_mask = src_key_padding_mask)
+                                    key_padding_mask = src_key_padding_mask)
         src = src + self.dropout1(src2)
         src = self.norm1(src)
         src2 = self.linear2(self.dropout(self.activation(self.linear1(src))))
@@ -119,28 +119,13 @@ class TransformerEncoder(nn.Module):
             see the docs in Transformer class.
         """
         output = src
-        attn_output = torch.zeros((src.shape[1], src.shape[0], src.shape[0]), device = self.device) # batch, seq_len, seq_len
-        
+        attn_output = torch.zeros((src.shape[1], src.shape[0], src.shape[0])) # batch, seq_len, seq_len
+
         for mod in self.layers:
             output, attn = mod(output, src_mask = mask, src_key_padding_mask = src_key_padding_mask)
-            attn_output += attn
-            
+            attn_output += attn.cpu()
+
         if self.norm is not None:
             output = self.norm(output)
 
         return output, attn_output
-
-
-
-# device = 'cpu'
-# seq_len, batch, emb_size = 4, 3, 32
-# nhead, nhid, nlayers, dropout = 8, 128, 2, 0.3
-# 
-# encoder_layers = TransformerEncoderLayer(emb_size, nhead, nhid, dropout)
-# model = TransformerEncoder(encoder_layers, nlayers, device)
-# 
-# src = torch.rand(seq_len, batch, emb_size) # seq_len, batch, emb_size
-# out, attn = model(src)
-# print(out.shape)
-# print(attn.shape)
-# =============================================================================
