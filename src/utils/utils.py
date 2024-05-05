@@ -55,7 +55,13 @@ def get_prop(args):
 # -----------------------------------------------
 
 
-def sparsify_time_series(time_series, p):
+# THE SPARSIFY FUNCTIONS
+# ----------------------
+# The first function is used to sparsify the time series values at random
+# The second function is used to sparsify the time series values using burst sparsification (in batches)
+
+
+def random_sparsify_time_series(time_series, p):
     """Random sparsification of time series"""
     number_of_missing = int(p * len(time_series))
     idx = list(range(len(time_series)))
@@ -65,18 +71,21 @@ def sparsify_time_series(time_series, p):
     return time_series
 
 
-# def sparsify_time_series(time_series, p):
-#     """Burst sparsification of time series"""
-#     number_of_missing = int(p*len(time_series))
-#     missing_from = random.randint(0, len(time_series)-number_of_missing)
-#     time_series[missing_from:missing_from+number_of_missing] = [0]*number_of_missing
-#     return time_series
+def burst_sparsify_time_series(time_series, p):
+    """Burst sparsification of time series"""
+    number_of_missing = int(p * len(time_series))
+    missing_from = random.randint(0, len(time_series) - number_of_missing)
+    time_series[missing_from : missing_from + number_of_missing] = [
+        0
+    ] * number_of_missing
+    return time_series
 
 
 def sparsify_time_series_dataset(ts_data, p, seed=1):
     random.seed(seed)
     for i in range(len(ts_data)):
-        ts_data[i] = sparsify_time_series(ts_data[i], p)
+        #! Change the function to change the sparsification method
+        ts_data[i] = burst_sparsify_time_series(ts_data[i], p)
     return ts_data
 
 

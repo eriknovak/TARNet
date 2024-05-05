@@ -3,19 +3,21 @@
 Created on Sun Mar 14 19:09:45 2021
 
 @author: Ranak Roy Chowdhury
+@modified: Erik Novak
 """
 import argparse
 import warnings
 import pathlib
 import torch
 import numpy as np
-from sklearn.model_selection import  StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 
 import src.utils.utils as utils
 
 warnings.filterwarnings("ignore")
 
 PARENT_DIR = pathlib.Path(__file__).parent.absolute().parent.absolute()
+
 
 def main(args):
     prop = utils.get_prop(args)
@@ -42,7 +44,9 @@ def main(args):
             train_target,
             test_data,
             test_target,
-        ) = utils.preprocess(X[train_index], y[train_index], X[test_index], y[test_index])
+        ) = utils.preprocess(
+            X[train_index], y[train_index], X[test_index], y[test_index]
+        )
 
         print("Initializing model...")
         (
@@ -62,11 +66,25 @@ def main(args):
             buffer_size += buffer.nelement() * buffer.element_size()
         size_all_mb = (param_size + buffer_size) / 1024**2
 
-        print("Model size", param_size, "parameters,", buffer_size, "buffers,", "{:.3f}MB".format(size_all_mb))
-
+        print(
+            "Model size",
+            param_size,
+            "parameters,",
+            buffer_size,
+            "buffers,",
+            "{:.3f}MB".format(size_all_mb),
+        )
 
         print("Training start...")
-        utils.training(model, optimizer, criterion_tar, criterion_task, train_data, train_target, prop)
+        utils.training(
+            model,
+            optimizer,
+            criterion_tar,
+            criterion_task,
+            train_data,
+            train_target,
+            prop,
+        )
         print("Training complete...")
 
         print("Evaluating start...")
@@ -75,12 +93,17 @@ def main(args):
 
         # Output the results
         accuracies.append(metrics["accuracy"])
-        print(f"Fold: {prop['kfold']:2d}, accuracy of with {prop['model']}:  {metrics['accuracy']:4.3f}")
+        print(
+            f"Fold: {prop['kfold']:2d}, accuracy of with {prop['model']}:  {metrics['accuracy']:4.3f}"
+        )
 
-    print("**{} (epochs: {})**\n\n".format(file_name_prefix.split('/')[-1], prop['epochs']))
+    print(
+        "**{} (epochs: {})**\n\n".format(
+            file_name_prefix.split("/")[-1], prop["epochs"]
+        )
+    )
     print(f"\t\tMean acc.                              {np.mean(accuracies):4.3f}")
     print(f"\t\tStd. acc.                              {np.std(accuracies):4.3f}")
-
 
 
 if __name__ == "__main__":

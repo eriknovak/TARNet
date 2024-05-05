@@ -20,13 +20,11 @@ fi;
 
 
 declare -a DATASETS=(
-    #"Adiac"
-    "ArrowHead"
-    ##"CatsDogs" # does not have txt files
-    ##"CharacterTrajectories" # does not have txt files
-    "Chinatown"
+    "Adiac"
+    #"ArrowHead"
+    #"Chinatown"
     #"ChlorineConcentration"
-    ## "CinCECGTorso" # CUDA OUT OF MEMORY
+    # "CinCECGTorso" # CUDA OUT OF MEMORY
     #"DiatomSizeReduction"
     #"Earthquakes"
     #"ECG200"
@@ -36,20 +34,16 @@ declare -a DATASETS=(
     #"FiftyWords"
     #"FordA"
     #"FordB"
-    ##"Handwriting" # does not have txt files
     #"Haptics"
-    ##"Heartbeat" # does not have txt files
-    ## "InlineSkate" # CUDA OUT OF MEMORY
-    "ItalyPowerDemand"
-    ##"JapaneseVowels" # does not have txt files
+    # "InlineSkate" # CUDA OUT OF MEMORY
+    #"ItalyPowerDemand"
     #Mallat"
     #"MedicalImages"
     #"MelbournePedestrian"
-    ##"MindReading" # does not have txt files
     #"MoteStrain"
     #"OSULeaf"
     #"Phoneme"
-    "Plane"
+    #"Plane"
     #"PowerCons"
     #"SonyAIBORobotSurface1"
     #"SonyAIBORobotSurface2"
