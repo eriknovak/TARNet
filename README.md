@@ -9,6 +9,25 @@ To find the original implementation, please visit [HERE](https://github.com/rana
 ![The TARNet model architecture, adapted from the original paper](docs/TARNet.png)
 
 
+## 🔃 Citation
+
+If you find this code is useful, feel free to reference the following paper:
+
+```
+@article{Novak2022-wi,
+  title = {TARNet for the classification of time series with missing values: a strong baseline},
+  journal = { Acta Universitatis Sapientiae. Informatica.},
+  volume = {16(1)},
+  pages = {1-19},
+  year = {2024},
+  issn = {2066-7760},
+  doi = {https://doi.org/10.47745/ausi-2024-0001},
+  url = {https://acta.sapientia.ro/content/docs/info16-1-01-324608.pdf},
+  author = {Krisztian Buza and Erik Novak},
+}
+```
+
+
 ## ☑️ Requirements
 
 Before starting the project make sure these requirements are available:
